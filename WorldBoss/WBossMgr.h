@@ -163,7 +163,53 @@ public:
 	UInt16 fixBossId(UInt16 id, UInt8 idx);
 	void fixBossName(UInt16 id, Fighter* fighter, UInt8 idx);
 
+	inline void setLevel(UInt8 lvl) { if (lvl > m_maxlvl) m_maxlvl = lvl;}
+	inline UInt8 getLevel() { return m_maxlvl;}
+
+	inline UInt32 getHP() { return m_boss?m_boss->getHP():0;}
+
+	inline void setLast(UInt8 idx, Last& l) { m_lasts[idx] = l;}
+	inline UInt16 getLastTime(UInt8 idx) const {return m_lasts[idx].time;}
+	inline UInt32 getLastHP(UInt8 idx) const { return m_lasts[idx].hp;}
+	inline UInt32 getLastAtk(UInt8 idx) const { return m_lasts[idx].atk;}
+	inline UInt32 getLastMAtk(UInt8 idx) const { return m_lasts[idx].matk;}
+
+	void setBossSt(UInt8 idx, UInt8 st);
+	void setBossName(UInt8 idx, std::strig name);
+	void resetBossSt();
+	void bossAppear(UInt8 lvl, bool force = false);
+
+	inline UInt32 getAppearTime() const {return _appearTime;}
+	bool needAutoBattle(UInt16 spotId);
+	void calInitClanBigBoss(UInt32& lastHp, Int32& lastAtk, Int32& lastMAtk);
+	void Inspire(Player* player, UInt8 type);
+	void Relive(Player* player);
+	void SetSkipBattle(Player* player, bool isSkip);
+	void RefreshTenPlayer(Player* player);
+	void ReturnBaseInfo(Player* player);
+	void ReqBossId(Player* player, UInt32 loc);
+	void UpdateInspire(Player* player);
+	void checkLocRight(Player* player, UInt16 loc);
+	void calInitDarkDargon(UInt32& lastHp, Int32& lastAtk, Int32& lastMAtk);
+	void calInitNinthFront(UInt32& lastHp, Int32& lastAtk, Int32& lastMAtk, UInt16& bossid);
+
+private:
+	UInt32 _prepareTime;
+	UInt8 _prepareStep;
+	UInt32 _appearTime;
+	UInt32 _disapperTime;
+
+	UInt8 m_idx;
+	UInt8 m_maxlvl;
+	Last m_lasts[7];
+	WBoss* m_boss;
+
+	UInt16 m_bossID[2];
+	UInt8 m_bossSt[2];
+	std::string m_bossName[2];
 };
+
+extern WBossMgr worldBoss;
 
 }
 #endif
